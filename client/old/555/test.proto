@@ -1,0 +1,24 @@
+syntax = "proto3";  
+package websocket;  // 包名
+ 
+message WebsocketMessage {
+    int32 uid =1;
+    int32 type = 2;
+    string name =3;
+    string sex =4;
+    string  number=5;
+    bytes  message=6;
+    repeated int32 buy = 7;     // 一般陣列
+    message Book {
+        int32 bookType = 1;
+        int32 bookID = 2;
+    }
+    repeated Book buybook = 8; // 物件陣列 
+ }
+message Other {
+    string Method =1;
+	string From =2;
+	string To=3;
+	int32 Code=4;
+    bytes  parameters=5;
+} 

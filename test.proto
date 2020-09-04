@@ -1,0 +1,13 @@
+syntax = "proto3";
+package proto;
+
+enum FOO{
+    x = 0;
+};
+
+// message是固定的，UserInfo是類名，可以隨意指定，符合規範即可
+message UserInfo {
+    string message  = 1;    // 消息
+    int32 length = 2;       // 消息大小
+    int32 cnt = 3;          // 消息計數
+}

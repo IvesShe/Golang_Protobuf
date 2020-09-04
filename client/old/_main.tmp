@@ -1,0 +1,59 @@
+package main
+
+
+
+import (
+	"log"
+
+	"github.com/gorilla/websocket"
+
+	"bufio"
+	"fmt"
+	"net"
+	"os"
+	stProto "proto"
+	"time"
+
+	"github.com/golang/protobuf/proto"
+)
+
+
+fucn main(){
+	strIP:="localhost:6600"
+	var conn net.Conn
+	var err error
+
+	// 連接服務器
+	for conn,err = net.Dial("tcp",strIP); err!=nil;conn,err=net.Dial("tcp",strIP){
+		fmt.Println("connect",strIP,"fail")
+		time.Sleep(time.Second)
+		fmt.Println("reconnect...")
+	
+	}
+	fmt.Println("connect",strIP,"success")
+	defer conn.Close()
+
+	// 發送消息
+	cnt:=0
+	sender:=bufio.NewScanner(os.Stdin)
+	for sender.Scan(){
+		cnt++
+		stSend:= &stProto.UserInfo{
+			Message:sender.Text(),
+			Length: *proto.Int(len(sender.Text())),
+			Cnt: *proto.Int(cnt),
+		}
+
+		// protobuf編碼
+		pData,err:=proto.Marshal(stSend)
+		if err!=nil{
+			panic(err)
+		}
+
+		// 發送
+		conn.Write(pData)
+		if sender.Text() == "stop"{
+			return
+		}
+	}
+}
