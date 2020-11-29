@@ -50,21 +50,19 @@ https://lihaoquan.me/2017/6/29/how-to-use-protobuf.html
 
 ![image](./images/20200902155749.png)
 
-# test.proto
+# example/example.proto
 
 ```c
-syntax = "proto3";
-package proto;
+// 撰寫格式是 Proto v3。
+syntax = "proto3";  
+// 生成的程式在 Golang 中將會屬於 `protobuf` 套件。
+package example;
 
-enum FOO{
-    x = 0;
-};
-
-// message是固定的，UserInfo是類名，可以隨意指定，符合規範即可
-message UserInfo {
-    string message  = 1;    // 消息
-    int32 length = 2;       // 消息大小
-    int32 cnt = 3;          // 消息計數
+// User 帶有使用者資料，如帳號、密碼。
+message User {  
+    int64  id       = 1;
+    string username = 2;
+    string password = 3;
 }
 ```
 
